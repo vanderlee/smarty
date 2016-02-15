@@ -57,7 +57,8 @@ class Smarty_Internal_Compile_Include_Php extends Smarty_Internal_CompileBase
         }
         // check and get attributes
         $_attr = $this->getAttributes($compiler, $args);
-
+		$_attr[ 'file' ] = str_replace('$_tmp_vars', '$_smarty_tpl->tpl_vars', $_attr[ 'file' ]);
+		
         /** @var Smarty_Internal_Template $_smarty_tpl
          * used in evaluated code
          */
