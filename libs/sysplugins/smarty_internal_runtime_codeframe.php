@@ -54,6 +54,7 @@ class Smarty_Internal_Runtime_CodeFrame
                ($cache ? 'true' : 'false') . ")";
         $output .= "if ({$dec}) {\n";
         $output .= "function {$properties['unifunc']} (Smarty_Internal_Template \$_smarty_tpl) {\n";
+		$output .= "\$_tmp_vars = &\$_smarty_tpl->tpl_vars;\n";
         // include code for plugins
         if (!$cache) {
             if (!empty($_template->compiled->required_plugins[ 'compiled' ])) {

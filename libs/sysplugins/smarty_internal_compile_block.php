@@ -197,6 +197,7 @@ class Smarty_Internal_Compile_Blockclose extends Smarty_Internal_Compile_Shared_
             $output .= "public \${$property} = {$value};\n";
         }
         $output .= "public function callBlock(Smarty_Internal_Template \$_smarty_tpl) {\n";
+		$output .= "\$_tmp_vars = &\$_smarty_tpl->tpl_vars;\n";
         //$output .= "/*/%%SmartyNocache:{$compiler->template->compiled->nocache_hash}%%*/\n";
         if ($compiler->template->compiled->has_nocache_code) {
             $output .= "\$_smarty_tpl->cached->hashes['{$compiler->template->compiled->nocache_hash}'] = true;\n";

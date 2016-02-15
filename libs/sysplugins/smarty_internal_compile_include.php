@@ -235,7 +235,7 @@ class Smarty_Internal_Compile_Include extends Smarty_Internal_CompileBase
             }
             if (!empty($_attr) && $_caching == 9999 && $compiler->template->caching) {
                 $_vars_nc = "foreach ($_vars as \$ik => \$iv) {\n";
-                $_vars_nc .= "\$_smarty_tpl->tpl_vars[\$ik] =  new Smarty_Variable(\$iv);\n";
+                $_vars_nc .= "\$_tmp_vars[\$ik] =  new Smarty_Variable(\$iv);\n";
                 $_vars_nc .= "}\n";
                 $_output .= substr($compiler->processNocacheCode('<?php ' . $_vars_nc . "?>\n", true), 6, - 3);
             }
@@ -323,6 +323,7 @@ class Smarty_Internal_Compile_Include extends Smarty_Internal_CompileBase
             $compiled_code = "<?php\n\n";
             $compiled_code .= "/* Start inline template \"{$sourceInfo}\" =============================*/\n";
             $compiled_code .= "function {$tpl->compiled->unifunc} (\$_smarty_tpl) {\n";
+			$compiled_code .= "\$_tmp_vars = &\$_smarty_tpl->tpl_vars;\n";
             $compiled_code .= "?>\n" . $tpl->compiler->compileTemplateSource($tpl, null, $compiler->parent_compiler);
             $compiled_code .= "<?php\n";
             $compiled_code .= "}\n?>\n";

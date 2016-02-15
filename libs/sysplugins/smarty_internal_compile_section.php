@@ -98,13 +98,13 @@ class Smarty_Internal_Compile_Section extends Smarty_Internal_Compile_Private_Fo
             }
         }
         $local = "\$__section_{$attributes['name']}_" . $this->counter ++ . '_';
-        $sectionVar = "\$_smarty_tpl->tpl_vars['__smarty_section_{$attributes['name']}']";
+        $sectionVar = "\$_tmp_vars['__smarty_section_{$attributes['name']}']";
         $this->openTag($compiler, 'section', array('section', $compiler->nocache, $local, $sectionVar));
         // maybe nocache because of nocache variables
         $compiler->nocache = $compiler->nocache | $compiler->tag_nocache;
 
         $initLocal =
-            array('saved' => "isset(\$_smarty_tpl->tpl_vars['__smarty_section_{$attributes['name']}']) ? \$_smarty_tpl->tpl_vars['__smarty_section_{$attributes['name']}'] : false",);
+            array('saved' => "isset(\$_tmp_vars['__smarty_section_{$attributes['name']}']) ? \$_tmp_vars['__smarty_section_{$attributes['name']}'] : false",);
         $initNamedProperty = array();
         $initFor = array();
         $incFor = array();
