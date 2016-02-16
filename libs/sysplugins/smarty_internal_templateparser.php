@@ -2213,7 +2213,7 @@ class Smarty_Internal_Templateparser
     #line 890 "../smarty/lexer/smarty_internal_templateparser.y"
     function yy_r116()
     {
-        $this->_retvalue = '$_tmp_vars[' . $this->yystack[ $this->yyidx + - 2 ]->minor . ']->' .
+        $this->_retvalue = '$_cse_vars[' . $this->yystack[ $this->yyidx + - 2 ]->minor . ']->' .
                            $this->yystack[ $this->yyidx + 0 ]->minor;
     }
 
@@ -2694,7 +2694,7 @@ class Smarty_Internal_Templateparser
     #line 1335 "../smarty/lexer/smarty_internal_templateparser.y"
     function yy_r191()
     {
-        $this->_retvalue = new Smarty_Internal_ParseTree_Code('(string)$_tmp_vars[\'' .
+        $this->_retvalue = new Smarty_Internal_ParseTree_Code('(string)$_cse_vars[\'' .
                                                               substr($this->yystack[ $this->yyidx + 0 ]->minor, 1) .
                                                               '\']->value');
     }

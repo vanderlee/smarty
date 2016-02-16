@@ -76,7 +76,7 @@ class Smarty_Internal_Compile_Include extends Smarty_Internal_CompileBase
     {
         // check and get attributes
         $_attr = $this->getAttributes($compiler, $args);
-		$_attr[ 'file' ] = str_replace('$_tmp_vars[', '$_smarty_tpl->tpl_vars[', $_attr[ 'file' ]);
+		$_attr[ 'file' ] = str_replace('$_cse_vars[', '$_smarty_tpl->tpl_vars[', $_attr[ 'file' ]);
 
         $hashResourceName = $fullResourceName = $source_resource = $_attr[ 'file' ];
         $variable_template = false;
@@ -223,7 +223,7 @@ class Smarty_Internal_Compile_Include extends Smarty_Internal_CompileBase
             $_pairs = array();
             // create variables
             foreach ($_attr as $key => $value) {
-				$value = str_replace('$_tmp_vars[', '$_smarty_tpl->tpl_vars[', $value);
+				$value = str_replace('$_cse_vars[', '$_smarty_tpl->tpl_vars[', $value);
                 $_pairs[] = "'$key'=>$value";
             }
             $_vars = 'array(' . join(',', $_pairs) . ')';
@@ -237,16 +237,16 @@ class Smarty_Internal_Compile_Include extends Smarty_Internal_CompileBase
             }
             if (!empty($_attr) && $_caching == 9999 && $compiler->template->caching) {
                 $_vars_nc = "foreach ($_vars as \$ik => \$iv) {\n";
-                $_vars_nc .= "\$_tmp_vars[\$ik] =  new Smarty_Variable(\$iv);\n";
+                $_vars_nc .= "\$_cse_vars[\$ik] =  new Smarty_Variable(\$iv);\n";
                 $_vars_nc .= "}\n";
                 $_output .= substr($compiler->processNocacheCode('<?php ' . $_vars_nc . "?>\n", true), 6, - 3);
             }
             if (isset($_assign)) {
                 $_output .= "ob_start();\n";
             }
-            $_output .= "unset(\$_tmp_vars);\n";
+            $_output .= "unset(\$_cse_vars);\n";
             $_output .= "\$_smarty_tpl->_subTemplateRender({$fullResourceName}, {$_cache_id}, {$_compile_id}, {$_caching}, {$_cache_lifetime}, {$_vars}, {$_scope}, {$_cache_tpl}, '{$compiler->parent_compiler->mergedSubTemplatesData[$hashResourceName][$t_hash]['uid']}', '{$compiler->parent_compiler->mergedSubTemplatesData[$hashResourceName][$t_hash]['func']}');\n";
-            $_output .= "\$_tmp_vars = &\$_smarty_tpl->tpl_vars;\n";
+            $_output .= "\$_cse_vars = &\$_smarty_tpl->tpl_vars;\n";
             if (isset($_assign)) {
                 $_output .= "\$_smarty_tpl->assign({$_assign}, ob_get_clean());\n";
             }
@@ -269,9 +269,9 @@ class Smarty_Internal_Compile_Include extends Smarty_Internal_CompileBase
         if (isset($_assign)) {
             $_output .= "ob_start();\n";
         }
-		$_output .= "unset(\$_tmp_vars);\n";
+		$_output .= "unset(\$_cse_vars);\n";
         $_output .= "\$_smarty_tpl->_subTemplateRender({$fullResourceName}, $_cache_id, $_compile_id, $_caching, $_cache_lifetime, $_vars, $_scope, {$_cache_tpl});\n";
-		$_output .= "\$_tmp_vars = &\$_smarty_tpl->tpl_vars;\n";
+		$_output .= "\$_cse_vars = &\$_smarty_tpl->tpl_vars;\n";
         if (isset($_assign)) {
             $_output .= "\$_smarty_tpl->assign({$_assign}, ob_get_clean());\n";
         }
@@ -329,7 +329,7 @@ class Smarty_Internal_Compile_Include extends Smarty_Internal_CompileBase
             $compiled_code = "<?php\n\n";
             $compiled_code .= "/* Start inline template \"{$sourceInfo}\" =============================*/\n";
             $compiled_code .= "function {$tpl->compiled->unifunc} (\$_smarty_tpl) {\n";
-			$compiled_code .= "\$_tmp_vars = &\$_smarty_tpl->tpl_vars;\n";
+			$compiled_code .= "\$_cse_vars = &\$_smarty_tpl->tpl_vars;\n";
             $compiled_code .= "?>\n" . $tpl->compiler->compileTemplateSource($tpl, null, $compiler->parent_compiler);
             $compiled_code .= "<?php\n";
             $compiled_code .= "}\n?>\n";

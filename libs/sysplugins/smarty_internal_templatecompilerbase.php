@@ -772,7 +772,7 @@ abstract class Smarty_Internal_TemplateCompilerBase
                                                                                      false)->nocache;
             // todo $this->template->compiled->properties['variables'][$var] = $this->tag_nocache | $this->nocache;
         }
-        return '$_tmp_vars[' . $variable . ']->value';
+        return '$_cse_vars[' . $variable . ']->value';
     }
 
     /**
@@ -1048,7 +1048,7 @@ abstract class Smarty_Internal_TemplateCompilerBase
                 $this->template->compiled->has_nocache_code = true;
                 $_output = addcslashes($content, '\'\\');
                 $_output = str_replace("^#^", "'", $_output);
-                $_output = str_replace('$_tmp_vars[', '$_smarty_tpl->tpl_vars[', $_output);
+                $_output = str_replace('$_cse_vars[', '$_smarty_tpl->tpl_vars[', $_output);
                 $_output = "<?php echo '/*%%SmartyNocache:{$this->nocache_hash}%%*/" . $_output .
                            "/*/%%SmartyNocache:{$this->nocache_hash}%%*/';?>\n";
                 // make sure we include modifier plugins for nocache code
@@ -1159,7 +1159,7 @@ abstract class Smarty_Internal_TemplateCompilerBase
      */
     public function makeNocacheCode($code)
     {
-		$code = str_replace('$_tmp_vars[', '$_smarty_tpl->tpl_vars[', $code);
+		$code = str_replace('$_cse_vars[', '$_smarty_tpl->tpl_vars[', $code);
         return "echo '/*%%SmartyNocache:{$this->nocache_hash}%%*/<?php " .
                str_replace("^#^", "'", addcslashes($code, '\'\\')) .
                "?>/*/%%SmartyNocache:{$this->nocache_hash}%%*/';\n";

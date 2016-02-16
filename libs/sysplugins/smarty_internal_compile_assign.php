@@ -76,7 +76,7 @@ class Smarty_Internal_Compile_Assign extends Smarty_Internal_CompileBase
         }
         if (isset($parameter[ 'smarty_internal_index' ])) {
             $output =
-                "<?php \$_tmp_array = isset(\$_tmp_vars[{$_var}]) ? \$_tmp_vars[{$_var}]->value : array();\n";
+                "<?php \$_tmp_array = isset(\$_cse_vars[{$_var}]) ? \$_cse_vars[{$_var}]->value : array();\n";
             $output .= "if (!is_array(\$_tmp_array) || \$_tmp_array instanceof ArrayAccess) {\n";
             $output .= "settype(\$_tmp_array, 'array');\n";
             $output .= "}\n";

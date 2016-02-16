@@ -56,8 +56,8 @@ class Smarty_Internal_Compile_For extends Smarty_Internal_CompileBase
                     $var = $_statement[ 'var' ];
                     $index = '';
                 }
-                $output .= "\$_tmp_vars[$var] = new Smarty_Variable(null, \$_smarty_tpl->isRenderingCache);\n";
-                $output .= "\$_tmp_vars[$var]->value{$index} = {$_statement['value']};\n";
+                $output .= "\$_cse_vars[$var] = new Smarty_Variable(null, \$_smarty_tpl->isRenderingCache);\n";
+                $output .= "\$_cse_vars[$var]->value{$index} = {$_statement['value']};\n";
             }
             if (is_array($_attr[ 'var' ])) {
                 $var = $_attr[ 'var' ][ 'var' ];
@@ -66,7 +66,7 @@ class Smarty_Internal_Compile_For extends Smarty_Internal_CompileBase
                 $var = $_attr[ 'var' ];
                 $index = '';
             }
-            $output .= "if ($_attr[ifexp]) {\nfor (\$_foo=true;$_attr[ifexp]; \$_tmp_vars[$var]->value{$index}$_attr[step]) {\n";
+            $output .= "if ($_attr[ifexp]) {\nfor (\$_foo=true;$_attr[ifexp]; \$_cse_vars[$var]->value{$index}$_attr[step]) {\n";
         } else {
             $_statement = $_attr[ 'start' ];
             if (is_array($_statement[ 'var' ])) {
@@ -76,21 +76,21 @@ class Smarty_Internal_Compile_For extends Smarty_Internal_CompileBase
                 $var = $_statement[ 'var' ];
                 $index = '';
             }
-            $output .= "\$_tmp_vars[$var] = new Smarty_Variable(null, \$_smarty_tpl->isRenderingCache);";
+            $output .= "\$_cse_vars[$var] = new Smarty_Variable(null, \$_smarty_tpl->isRenderingCache);";
             if (isset($_attr[ 'step' ])) {
-                $output .= "\$_tmp_vars[$var]->step = $_attr[step];";
+                $output .= "\$_cse_vars[$var]->step = $_attr[step];";
             } else {
-                $output .= "\$_tmp_vars[$var]->step = 1;";
+                $output .= "\$_cse_vars[$var]->step = 1;";
             }
             if (isset($_attr[ 'max' ])) {
-                $output .= "\$_tmp_vars[$var]->total = (int) min(ceil((\$_tmp_vars[$var]->step > 0 ? $_attr[to]+1 - ($_statement[value]) : $_statement[value]-($_attr[to])+1)/abs(\$_tmp_vars[$var]->step)),$_attr[max]);\n";
+                $output .= "\$_cse_vars[$var]->total = (int) min(ceil((\$_cse_vars[$var]->step > 0 ? $_attr[to]+1 - ($_statement[value]) : $_statement[value]-($_attr[to])+1)/abs(\$_cse_vars[$var]->step)),$_attr[max]);\n";
             } else {
-                $output .= "\$_tmp_vars[$var]->total = (int) ceil((\$_tmp_vars[$var]->step > 0 ? $_attr[to]+1 - ($_statement[value]) : $_statement[value]-($_attr[to])+1)/abs(\$_tmp_vars[$var]->step));\n";
+                $output .= "\$_cse_vars[$var]->total = (int) ceil((\$_cse_vars[$var]->step > 0 ? $_attr[to]+1 - ($_statement[value]) : $_statement[value]-($_attr[to])+1)/abs(\$_cse_vars[$var]->step));\n";
             }
-            $output .= "if (\$_tmp_vars[$var]->total > 0) {\n";
-            $output .= "for (\$_tmp_vars[$var]->value{$index} = $_statement[value], \$_tmp_vars[$var]->iteration = 1;\$_tmp_vars[$var]->iteration <= \$_tmp_vars[$var]->total;\$_tmp_vars[$var]->value{$index} += \$_tmp_vars[$var]->step, \$_tmp_vars[$var]->iteration++) {\n";
-            $output .= "\$_tmp_vars[$var]->first = \$_tmp_vars[$var]->iteration == 1;";
-            $output .= "\$_tmp_vars[$var]->last = \$_tmp_vars[$var]->iteration == \$_tmp_vars[$var]->total;";
+            $output .= "if (\$_cse_vars[$var]->total > 0) {\n";
+            $output .= "for (\$_cse_vars[$var]->value{$index} = $_statement[value], \$_cse_vars[$var]->iteration = 1;\$_cse_vars[$var]->iteration <= \$_cse_vars[$var]->total;\$_cse_vars[$var]->value{$index} += \$_cse_vars[$var]->step, \$_cse_vars[$var]->iteration++) {\n";
+            $output .= "\$_cse_vars[$var]->first = \$_cse_vars[$var]->iteration == 1;";
+            $output .= "\$_cse_vars[$var]->last = \$_cse_vars[$var]->iteration == \$_cse_vars[$var]->total;";
         }
         $output .= "?>";
 

@@ -145,14 +145,14 @@ class Smarty_Internal_Compile_Functionclose extends Smarty_Internal_CompileBase
             $output .= "/* {$_funcNameCaching} */\n";
             $output .= "if (!function_exists('{$_funcNameCaching}')) {\n";
             $output .= "function {$_funcNameCaching} (\$_smarty_tpl,\$params) {\n";
-			$output .= "\$_tmp_vars = &\$_smarty_tpl->tpl_vars;\n";
+			$output .= "\$_cse_vars = &\$_smarty_tpl->tpl_vars;\n";
             $output .= "ob_start();\n";
             $output .= "\$_smarty_tpl->compiled->has_nocache_code = true;\n";
             $output .= $_paramsCode;
-            $output .= "foreach (\$params as \$key => \$value) {\n\$_tmp_vars[\$key] = new Smarty_Variable(\$value, \$_smarty_tpl->isRenderingCache);\n}";
+            $output .= "foreach (\$params as \$key => \$value) {\n\$_cse_vars[\$key] = new Smarty_Variable(\$value, \$_smarty_tpl->isRenderingCache);\n}";
             $output .= "\$params = var_export(\$params, true);\n";
             $output .= "echo \"/*%%SmartyNocache:{$compiler->template->compiled->nocache_hash}%%*/<?php ";
-            $output .= "\\\$_smarty_tpl->smarty->ext->_tplFunction->saveTemplateVariables(\\\$_smarty_tpl, '{$_name}');\nforeach (\$params as \\\$key => \\\$value) {\n\\\$_tmp_vars[\\\$key] = new Smarty_Variable(\\\$value, \\\$_smarty_tpl->isRenderingCache);\n}\n?>";
+            $output .= "\\\$_smarty_tpl->smarty->ext->_tplFunction->saveTemplateVariables(\\\$_smarty_tpl, '{$_name}');\nforeach (\$params as \\\$key => \\\$value) {\n\\\$_cse_vars[\\\$key] = new Smarty_Variable(\\\$value, \\\$_smarty_tpl->isRenderingCache);\n}\n?>";
             $output .= "/*/%%SmartyNocache:{$compiler->template->compiled->nocache_hash}%%*/\n\";?>";
             $compiler->parser->current_buffer->append_subtree($compiler->parser,
                                                               new Smarty_Internal_ParseTree_Tag($compiler->parser,
@@ -179,9 +179,9 @@ class Smarty_Internal_Compile_Functionclose extends Smarty_Internal_CompileBase
         $output .= "/* {$_funcName} */\n";
         $output .= "if (!function_exists('{$_funcName}')) {\n";
         $output .= "function {$_funcName}(\$_smarty_tpl,\$params) {\n";
-		$output .= "\$_tmp_vars = &\$_smarty_tpl->tpl_vars;\n";
+		$output .= "\$_cse_vars = &\$_smarty_tpl->tpl_vars;\n";
         $output .= $_paramsCode;
-        $output .= "foreach (\$params as \$key => \$value) {\n\$_tmp_vars[\$key] = new Smarty_Variable(\$value, \$_smarty_tpl->isRenderingCache);\n}?>";
+        $output .= "foreach (\$params as \$key => \$value) {\n\$_cse_vars[\$key] = new Smarty_Variable(\$value, \$_smarty_tpl->isRenderingCache);\n}?>";
         $compiler->parser->current_buffer->append_subtree($compiler->parser,
                                                           new Smarty_Internal_ParseTree_Tag($compiler->parser,
                                                                                             $output));

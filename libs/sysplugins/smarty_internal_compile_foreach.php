@@ -125,7 +125,7 @@ class Smarty_Internal_Compile_Foreach extends Smarty_Internal_Compile_Private_Fo
             }
         }
 
-        $itemVar = "\$_tmp_vars['{$item}']";
+        $itemVar = "\$_cse_vars['{$item}']";
         $local = '$__foreach_' . $attributes[ 'item' ] . '_' . $this->counter ++ . '_';
         // search for used tag attributes
         $itemAttr = array();
@@ -155,10 +155,10 @@ class Smarty_Internal_Compile_Foreach extends Smarty_Internal_Compile_Private_Fo
         if (isset($itemAttr[ 'key' ])) {
             $keyTerm = "{$itemVar}->key => ";
         } elseif (isset($attributes[ 'key' ])) {
-            $keyTerm = "\$_tmp_vars['{$key}']->value => ";
+            $keyTerm = "\$_cse_vars['{$key}']->value => ";
         }
         if ($this->isNamed) {
-            $foreachVar = "\$_tmp_vars['__smarty_foreach_{$attributes['name']}']";
+            $foreachVar = "\$_cse_vars['__smarty_foreach_{$attributes['name']}']";
         }
         $this->openTag($compiler, 'foreach', array('foreach', $compiler->nocache, $local, $itemVar, true));
         // maybe nocache because of nocache variables
@@ -191,7 +191,7 @@ class Smarty_Internal_Compile_Foreach extends Smarty_Internal_Compile_Private_Fo
         $output .= "foreach (\$_from as {$keyTerm}{$itemVar}->value) {\n";
         $output .= "{$itemVar}->_loop = true;\n";
         if (isset($attributes[ 'key' ]) && isset($itemAttr[ 'key' ])) {
-            $output .= "\$_tmp_vars['{$key}']->value = {$itemVar}->key;\n";
+            $output .= "\$_cse_vars['{$key}']->value = {$itemVar}->key;\n";
         }
         if (isset($itemAttr[ 'iteration' ])) {
             $output .= "{$itemVar}->iteration++;\n";
