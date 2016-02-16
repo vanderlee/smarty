@@ -76,6 +76,7 @@ class Smarty_Internal_Compile_Include extends Smarty_Internal_CompileBase
     {
         // check and get attributes
         $_attr = $this->getAttributes($compiler, $args);
+		$_attr[ 'file' ] = str_replace('$_tmp_vars[', '$_smarty_tpl->tpl_vars[', $_attr[ 'file' ]);
 
         $hashResourceName = $fullResourceName = $source_resource = $_attr[ 'file' ];
         $variable_template = false;
@@ -222,6 +223,7 @@ class Smarty_Internal_Compile_Include extends Smarty_Internal_CompileBase
             $_pairs = array();
             // create variables
             foreach ($_attr as $key => $value) {
+				$value = str_replace('$_tmp_vars[', '$_smarty_tpl->tpl_vars[', $value);
                 $_pairs[] = "'$key'=>$value";
             }
             $_vars = 'array(' . join(',', $_pairs) . ')';
@@ -242,7 +244,9 @@ class Smarty_Internal_Compile_Include extends Smarty_Internal_CompileBase
             if (isset($_assign)) {
                 $_output .= "ob_start();\n";
             }
+            $_output .= "unset(\$_tmp_vars);\n";
             $_output .= "\$_smarty_tpl->_subTemplateRender({$fullResourceName}, {$_cache_id}, {$_compile_id}, {$_caching}, {$_cache_lifetime}, {$_vars}, {$_scope}, {$_cache_tpl}, '{$compiler->parent_compiler->mergedSubTemplatesData[$hashResourceName][$t_hash]['uid']}', '{$compiler->parent_compiler->mergedSubTemplatesData[$hashResourceName][$t_hash]['func']}');\n";
+            $_output .= "\$_tmp_vars = &\$_smarty_tpl->tpl_vars;\n";
             if (isset($_assign)) {
                 $_output .= "\$_smarty_tpl->assign({$_assign}, ob_get_clean());\n";
             }
@@ -265,7 +269,9 @@ class Smarty_Internal_Compile_Include extends Smarty_Internal_CompileBase
         if (isset($_assign)) {
             $_output .= "ob_start();\n";
         }
+		$_output .= "unset(\$_tmp_vars);\n";
         $_output .= "\$_smarty_tpl->_subTemplateRender({$fullResourceName}, $_cache_id, $_compile_id, $_caching, $_cache_lifetime, $_vars, $_scope, {$_cache_tpl});\n";
+		$_output .= "\$_tmp_vars = &\$_smarty_tpl->tpl_vars;\n";
         if (isset($_assign)) {
             $_output .= "\$_smarty_tpl->assign({$_assign}, ob_get_clean());\n";
         }

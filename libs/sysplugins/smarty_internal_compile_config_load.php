@@ -70,6 +70,7 @@ class Smarty_Internal_Compile_Config_Load extends Smarty_Internal_CompileBase
     {
         // check and get attributes
         $_attr = $this->getAttributes($compiler, $args);
+		$_attr[ 'file' ] = str_replace('$_tmp_vars[', '$_smarty_tpl->tpl_vars[', $_attr[ 'file' ]);
 
         if ($_attr[ 'nocache' ] === true) {
             $compiler->trigger_template_error('nocache option not allowed', null, true);

@@ -54,7 +54,7 @@ class Smarty_Internal_Compile_Insert extends Smarty_Internal_CompileBase
     {
         // check and get attributes
         $_attr = $this->getAttributes($compiler, $args);
-		$_attr[ 'name' ] = str_replace('$_tmp_vars', '$_smarty_tpl->tpl_vars', $_attr[ 'name' ]);
+		$_attr[ 'name' ] = str_replace('$_tmp_vars[', '$_smarty_tpl->tpl_vars[', $_attr[ 'name' ]);
 
         //Does tag create output
         $compiler->has_output = isset($_attr[ 'assign' ]) ? false : true;

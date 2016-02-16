@@ -224,6 +224,7 @@ class Smarty_Template_Compiled extends Smarty_Template_Resource_Base
             }
             throw $e;
         }
+//error_log($code, 3, 'd:/www/Smarty/log.txt');	// @vanderlee remove this
         // compiling succeeded
         if ($_template->compiler->write_compiled_code) {
             // write compiled template
